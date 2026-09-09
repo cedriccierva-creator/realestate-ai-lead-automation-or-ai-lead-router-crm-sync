@@ -1,0 +1,2718 @@
+{
+    "name": "Lead r",
+    "flow": [
+        {
+            "id": 2,
+            "module": "google-email:triggerWatchNewEmails",
+            "version": 4,
+            "parameters": {
+                "from": "cedriccierva@gmail.com",
+                "size": {
+                    "unit": "M",
+                    "amount": null,
+                    "criteria": "larger"
+                },
+                "limit": 10,
+                "folder": "INBOX",
+                "format": "full",
+                "subject": "🚨 New Lead",
+                "criteria": "all",
+                "labelIds": "Label_6648043138084602085",
+                "markSeen": false,
+                "filterType": "simpleSearch",
+                "__IMTCONN__": 10306047,
+                "excludeWords": "",
+                "includeWords": "New Lead Received from",
+                "hasAttachment": false
+            },
+            "mapper": {},
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 0
+                },
+                "restore": {
+                    "parameters": {
+                        "size": {
+                            "nested": {
+                                "unit": {
+                                    "label": "MB (megabytes)"
+                                },
+                                "criteria": {
+                                    "label": "Greater than"
+                                }
+                            }
+                        },
+                        "folder": {
+                            "label": "Inbox"
+                        },
+                        "format": {
+                            "label": "Full content"
+                        },
+                        "criteria": {
+                            "label": "All messages"
+                        },
+                        "labelIds": {
+                            "label": "Leads"
+                        },
+                        "filterType": {
+                            "label": "Simple filter"
+                        },
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "google-email"
+                            },
+                            "label": "Cedric's Gmail connection (cedriccierva@gmail.com)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:google-email",
+                        "label": "Connection",
+                        "required": true
+                    },
+                    {
+                        "name": "filterType",
+                        "type": "select",
+                        "label": "Filter type",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "simpleSearch",
+                                "gmailSearch"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "format",
+                        "type": "select",
+                        "label": "Content format",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "full",
+                                "raw",
+                                "metadata",
+                                "minimal"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "folder",
+                        "type": "select",
+                        "label": "Folder",
+                        "required": true
+                    },
+                    {
+                        "name": "labelIds",
+                        "type": "select",
+                        "label": "Label"
+                    },
+                    {
+                        "name": "criteria",
+                        "type": "select",
+                        "label": "Criteria",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "all",
+                                "is:read",
+                                "is:unread"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "markSeen",
+                        "type": "boolean",
+                        "label": "Mark email message(s) as read when fetched"
+                    },
+                    {
+                        "name": "limit",
+                        "type": "uinteger",
+                        "label": "Limit",
+                        "required": true,
+                        "validate": {
+                            "max": 500
+                        }
+                    },
+                    {
+                        "name": "from",
+                        "type": "email",
+                        "label": "Sender email address"
+                    },
+                    {
+                        "name": "subject",
+                        "type": "text",
+                        "label": "Subject"
+                    },
+                    {
+                        "name": "includeWords",
+                        "type": "text",
+                        "label": "Has the words"
+                    },
+                    {
+                        "name": "excludeWords",
+                        "type": "text",
+                        "label": "Doesn't have"
+                    },
+                    {
+                        "name": "size",
+                        "spec": [
+                            {
+                                "name": "criteria",
+                                "type": "select",
+                                "label": "Criteria",
+                                "validate": {
+                                    "enum": [
+                                        "larger",
+                                        "smaller"
+                                    ]
+                                }
+                            },
+                            {
+                                "name": "amount",
+                                "type": "integer",
+                                "label": "Size",
+                                "validate": {
+                                    "min": 0
+                                }
+                            },
+                            {
+                                "name": "unit",
+                                "type": "select",
+                                "label": "Size unit",
+                                "validate": {
+                                    "enum": [
+                                        "M",
+                                        "K",
+                                        "bytes"
+                                    ]
+                                }
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Email size"
+                    },
+                    {
+                        "name": "hasAttachment",
+                        "type": "boolean",
+                        "label": "Only emails with attachments/media",
+                        "required": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "id",
+                        "type": "text",
+                        "label": "Message ID"
+                    },
+                    {
+                        "name": "threadId",
+                        "type": "text",
+                        "label": "Thread ID"
+                    },
+                    {
+                        "name": "internalDate",
+                        "type": "date",
+                        "label": "Date"
+                    },
+                    {
+                        "name": "subject",
+                        "type": "text",
+                        "label": "Subject",
+                        "condition": true
+                    },
+                    {
+                        "name": "fromName",
+                        "type": "text",
+                        "label": "From (name)",
+                        "condition": true
+                    },
+                    {
+                        "name": "fromEmail",
+                        "type": "text",
+                        "label": "From (email)",
+                        "condition": true
+                    },
+                    {
+                        "name": "to",
+                        "spec": {
+                            "spec": [
+                                {
+                                    "name": "name",
+                                    "type": "text",
+                                    "label": "Name"
+                                },
+                                {
+                                    "name": "email",
+                                    "type": "text",
+                                    "label": "Email"
+                                }
+                            ],
+                            "type": "collection"
+                        },
+                        "type": "array",
+                        "label": "To",
+                        "condition": true
+                    },
+                    {
+                        "name": "cc",
+                        "spec": [
+                            {
+                                "name": "email",
+                                "type": "email",
+                                "label": "Email"
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "CC",
+                        "condition": true
+                    },
+                    {
+                        "name": "bcc",
+                        "spec": [
+                            {
+                                "name": "email",
+                                "type": "email",
+                                "label": "Email"
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "BCC",
+                        "condition": true
+                    },
+                    {
+                        "name": "snippet",
+                        "type": "text",
+                        "label": "Snippet"
+                    },
+                    {
+                        "name": "fullTextBody",
+                        "type": "text",
+                        "label": "Full text body",
+                        "condition": true
+                    },
+                    {
+                        "name": "htmlBody",
+                        "type": "text",
+                        "label": "HTML body",
+                        "condition": true
+                    },
+                    {
+                        "name": "hasAttachment",
+                        "type": "boolean",
+                        "label": "Has attachment",
+                        "condition": true
+                    },
+                    {
+                        "name": "hasMedia",
+                        "type": "boolean",
+                        "label": "Has media",
+                        "condition": true
+                    },
+                    {
+                        "name": "sysFolders",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "System folder ID"
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "System folder name"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "System folders"
+                    },
+                    {
+                        "name": "categoryFolders",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "Category folder ID"
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Category folder name"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Category folders"
+                    },
+                    {
+                        "name": "userLabelFolders",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "User label folder ID"
+                            },
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "User label folder name"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "User label folders"
+                    },
+                    {
+                        "name": "labelIds",
+                        "spec": {
+                            "type": "text"
+                        },
+                        "type": "array",
+                        "label": "Message folder IDs"
+                    },
+                    {
+                        "name": "headers",
+                        "spec": [
+                            {
+                                "name": "Delivered-To",
+                                "type": "text",
+                                "label": "Delivered-To"
+                            },
+                            {
+                                "name": "Received",
+                                "type": "text",
+                                "label": "Received"
+                            },
+                            {
+                                "name": "Date",
+                                "type": "text",
+                                "label": "Date (header)"
+                            },
+                            {
+                                "name": "X-Original-Sender",
+                                "type": "text"
+                            },
+                            {
+                                "name": "Reply-To",
+                                "type": "text"
+                            },
+                            {
+                                "name": "Subject",
+                                "type": "text",
+                                "label": "Subject"
+                            },
+                            {
+                                "name": "From",
+                                "type": "text",
+                                "label": "From"
+                            },
+                            {
+                                "name": "To",
+                                "type": "text",
+                                "label": "To"
+                            },
+                            {
+                                "name": "Message-ID",
+                                "type": "text",
+                                "label": "Message-ID"
+                            },
+                            {
+                                "name": "In-Reply-To",
+                                "type": "text",
+                                "label": "In-Reply-To"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Headers",
+                        "condition": true
+                    },
+                    {
+                        "name": "sizeEstimate",
+                        "type": "number",
+                        "label": "Size estimate"
+                    },
+                    {
+                        "name": "historyId",
+                        "type": "text",
+                        "label": "History ID"
+                    }
+                ],
+                "advanced": true
+            }
+        },
+        {
+            "id": 6,
+            "module": "gemini-ai:extractStructuredData",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 10880123
+            },
+            "mapper": {
+                "model": "gemini-3.6-flash",
+                "contents": [
+                    {
+                        "role": "user",
+                        "parts": [
+                            {
+                                "text": "{{2.fullTextBody}}",
+                                "type": "text"
+                            }
+                        ]
+                    }
+                ],
+                "responseSchema": [
+                    {
+                        "type": "string",
+                        "description": "Extract lead details from the email below.\n\nEmail Subject: {{2.headers.Subject}}\nEmail Body: {{2.fullTextBody}}\n\nReturn ONLY a raw, minified JSON object with no markdown formatting or backticks:\n{\"first_name\": \"string\", \"last_name\": \"string\", \"email\": \"string\", \"phone\": \"string\", \"source\": \"CINC\"|\"Zillow\", \"property_interest\": \"string\", \"budget\": \"string\"}",
+                        "property_name": "lead_data"
+                    }
+                ],
+                "generationConfig": {
+                    "thinkingConfig": {}
+                }
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 0
+                },
+                "restore": {
+                    "expect": {
+                        "model": {
+                            "mode": "chose",
+                            "label": "Gemini 3.6 Flash"
+                        },
+                        "contents": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "role": {
+                                        "mode": "chose",
+                                        "label": "User"
+                                    },
+                                    "parts": {
+                                        "mode": "chose",
+                                        "items": [
+                                            {
+                                                "type": {
+                                                    "mode": "chose",
+                                                    "label": "Text"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        },
+                        "responseSchema": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "type": {
+                                        "mode": "chose",
+                                        "label": "String",
+                                        "nested": [
+                                            {
+                                                "help": null,
+                                                "name": "property_name",
+                                                "spec": null,
+                                                "type": "text",
+                                                "label": "Property Name",
+                                                "options": null,
+                                                "required": true
+                                            },
+                                            {
+                                                "help": null,
+                                                "name": "description",
+                                                "spec": null,
+                                                "type": "text",
+                                                "label": "Description",
+                                                "options": null,
+                                                "required": false
+                                            },
+                                            {
+                                                "help": "The format is not being validated post generation. Add guidance in the prompt and/or property description.",
+                                                "name": "format",
+                                                "spec": null,
+                                                "type": "select",
+                                                "label": "Format",
+                                                "options": [
+                                                    {
+                                                        "label": "Date-Time",
+                                                        "value": "date-time"
+                                                    },
+                                                    {
+                                                        "label": "Date",
+                                                        "value": "date"
+                                                    },
+                                                    {
+                                                        "label": "Time",
+                                                        "value": "time"
+                                                    },
+                                                    {
+                                                        "label": "Email",
+                                                        "value": "email"
+                                                    },
+                                                    {
+                                                        "label": "Hostname",
+                                                        "value": "hostname"
+                                                    },
+                                                    {
+                                                        "label": "IPv4",
+                                                        "value": "ipv4"
+                                                    },
+                                                    {
+                                                        "label": "IPv6",
+                                                        "value": "ipv6"
+                                                    },
+                                                    {
+                                                        "label": "URI",
+                                                        "value": "uri"
+                                                    },
+                                                    {
+                                                        "label": "UUID",
+                                                        "value": "uuid"
+                                                    },
+                                                    {
+                                                        "label": "Regex",
+                                                        "value": "regex"
+                                                    }
+                                                ],
+                                                "required": null
+                                            },
+                                            {
+                                                "help": null,
+                                                "name": "required",
+                                                "spec": null,
+                                                "type": "boolean",
+                                                "label": "Required Property?",
+                                                "options": null,
+                                                "required": null
+                                            },
+                                            {
+                                                "help": null,
+                                                "name": "array",
+                                                "spec": null,
+                                                "type": "boolean",
+                                                "label": "Make property an array?",
+                                                "options": null,
+                                                "required": null
+                                            }
+                                        ]
+                                    },
+                                    "array": {
+                                        "mode": "chose"
+                                    },
+                                    "format": {
+                                        "mode": "chose",
+                                        "label": "Empty"
+                                    },
+                                    "required": {
+                                        "mode": "chose"
+                                    }
+                                }
+                            ]
+                        },
+                        "generationConfig": {
+                            "nested": {
+                                "thinkingConfig": {
+                                    "nested": {
+                                        "thinking_level": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "include_thoughts": {
+                                            "mode": "chose"
+                                        }
+                                    }
+                                },
+                                "mediaResolution": {
+                                    "mode": "chose",
+                                    "label": "Empty"
+                                }
+                            }
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "gemini-ai-q9zyjp"
+                            },
+                            "label": "Auto Lead gen"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:gemini-ai-q9zyjp",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "model",
+                        "type": "select",
+                        "label": "AI Model",
+                        "required": true
+                    },
+                    {
+                        "name": "contents",
+                        "spec": [
+                            {
+                                "name": "role",
+                                "type": "select",
+                                "label": "Role",
+                                "options": [
+                                    {
+                                        "label": "User",
+                                        "value": "user"
+                                    },
+                                    {
+                                        "label": "Model",
+                                        "value": "model"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "parts",
+                                "spec": [
+                                    {
+                                        "name": "type",
+                                        "type": "select",
+                                        "label": "Message Type",
+                                        "options": [
+                                            {
+                                                "label": "Text",
+                                                "value": "text",
+                                                "nested": [
+                                                    {
+                                                        "name": "text",
+                                                        "type": "text",
+                                                        "label": "Text",
+                                                        "required": false
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "label": "File",
+                                                "value": "file",
+                                                "nested": [
+                                                    {
+                                                        "name": "file_data",
+                                                        "spec": [
+                                                            {
+                                                                "name": "mime_type",
+                                                                "type": "text",
+                                                                "label": "Mime Type",
+                                                                "required": false
+                                                            },
+                                                            {
+                                                                "help": "You can use public or signed URLs as input by using the URLs.",
+                                                                "name": "file_uri",
+                                                                "type": "text",
+                                                                "label": "File URI",
+                                                                "required": false
+                                                            }
+                                                        ],
+                                                        "type": "collection",
+                                                        "label": "File Data",
+                                                        "required": false
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "name": "thoughtSignature",
+                                        "type": "text",
+                                        "label": "Thought Signature"
+                                    }
+                                ],
+                                "type": "array",
+                                "label": "Parts"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Messages",
+                        "required": true
+                    },
+                    {
+                        "name": "responseSchema",
+                        "spec": [
+                            {
+                                "name": "type",
+                                "type": "select",
+                                "label": "Value Type",
+                                "options": [
+                                    {
+                                        "label": "String",
+                                        "value": "string",
+                                        "nested": "rpc://gemini-ai/1/createResponseSchema?type=string"
+                                    },
+                                    {
+                                        "label": "Enum",
+                                        "value": "enum",
+                                        "nested": "rpc://gemini-ai/1/createResponseSchema?type=enum"
+                                    },
+                                    {
+                                        "label": "Number",
+                                        "value": "number",
+                                        "nested": "rpc://gemini-ai/1/createResponseSchema?type=number"
+                                    },
+                                    {
+                                        "label": "Integer",
+                                        "value": "integer",
+                                        "nested": "rpc://gemini-ai/1/createResponseSchema?type=integer"
+                                    },
+                                    {
+                                        "label": "Boolean",
+                                        "value": "boolean",
+                                        "nested": "rpc://gemini-ai/1/createResponseSchema?type=boolean"
+                                    },
+                                    {
+                                        "label": "Object",
+                                        "value": "object",
+                                        "nested": "rpc://gemini-ai/1/createResponseSchema?type=object"
+                                    }
+                                ],
+                                "required": true
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Response Schema",
+                        "required": true
+                    },
+                    {
+                        "name": "generationConfig",
+                        "spec": [
+                            {
+                                "name": "thinkingConfig",
+                                "spec": [
+                                    {
+                                        "name": "thinkingBudget",
+                                        "type": "number",
+                                        "label": "Thinking Budget"
+                                    },
+                                    {
+                                        "name": "include_thoughts",
+                                        "type": "boolean",
+                                        "label": "Include Thoughts"
+                                    },
+                                    {
+                                        "name": "thinking_level",
+                                        "type": "select",
+                                        "label": "Thinking Level",
+                                        "validate": {
+                                            "enum": [
+                                                "low",
+                                                "high"
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Thinking Config"
+                            },
+                            {
+                                "name": "mediaResolution",
+                                "type": "select",
+                                "label": "Media Resolution",
+                                "validate": {
+                                    "enum": [
+                                        "media_resolution_low",
+                                        "media_resolution_medium",
+                                        "media_resolution_high"
+                                    ]
+                                }
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Generation configurations"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 9,
+            "module": "json:ParseJSON",
+            "version": 1,
+            "parameters": {
+                "type": 459877
+            },
+            "mapper": {
+                "json": "{{ifempty(6.result.lead_data; )}}"
+            },
+            "metadata": {
+                "designer": {
+                    "x": 600,
+                    "y": 0
+                },
+                "restore": {
+                    "parameters": {
+                        "type": {
+                            "label": "Gemini Lead Array"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "type",
+                        "type": "udt",
+                        "label": "Data structure"
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "json",
+                        "type": "text",
+                        "label": "JSON string",
+                        "required": true
+                    }
+                ],
+                "interface": [
+                    {
+                        "help": "",
+                        "name": "key",
+                        "type": "text",
+                        "label": "Key",
+                        "default": null,
+                        "required": false,
+                        "multiline": false
+                    },
+                    {
+                        "help": "",
+                        "name": "value",
+                        "type": "number",
+                        "label": "Value",
+                        "default": null,
+                        "required": false
+                    }
+                ]
+            }
+        },
+        {
+            "id": 15,
+            "module": "builtin:BasicRouter",
+            "version": 1,
+            "mapper": null,
+            "metadata": {
+                "designer": {
+                    "x": 900,
+                    "y": 0
+                }
+            },
+            "routes": [
+                {
+                    "flow": [
+                        {
+                            "id": 24,
+                            "module": "highlevel:createAContact",
+                            "version": 1,
+                            "parameters": {
+                                "__IMTCONN__": 10785250
+                            },
+                            "mapper": {
+                                "dnd": false,
+                                "tags": "{{9.source}}",
+                                "email": "{{9.email}}",
+                                "phone": "{{9.phone}}",
+                                "source": "{{9.source}}",
+                                "address": {
+                                    "city": "{{9.property_interest}}"
+                                },
+                                "lastName": "{{9.last_name}}",
+                                "firstName": "{{9.first_name}}",
+                                "customField": {}
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1217,
+                                    "y": -152
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "dnd": {
+                                            "mode": "chose"
+                                        },
+                                        "tags": {
+                                            "mode": "edit"
+                                        },
+                                        "address": {
+                                            "nested": {
+                                                "country": {
+                                                    "mode": "chose",
+                                                    "label": "Empty"
+                                                }
+                                            }
+                                        },
+                                        "timezone": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "customField": {
+                                            "nested": {
+                                                "pvKrC9DzZQCX26MCcG8E": {
+                                                    "mode": "chose",
+                                                    "label": "Empty"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "highlevel3"
+                                            },
+                                            "label": "Cedric's GoHighlevel Location OAuth 2.0 connection (Location: NA)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:highlevel,highlevel3",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "email",
+                                        "type": "email",
+                                        "label": "Email"
+                                    },
+                                    {
+                                        "name": "phone",
+                                        "type": "text",
+                                        "label": "Phone"
+                                    },
+                                    {
+                                        "name": "firstName",
+                                        "type": "text",
+                                        "label": "First Name"
+                                    },
+                                    {
+                                        "name": "lastName",
+                                        "type": "text",
+                                        "label": "Last Name"
+                                    },
+                                    {
+                                        "name": "gender",
+                                        "type": "text",
+                                        "label": "Gender"
+                                    },
+                                    {
+                                        "name": "dateOfBirth",
+                                        "time": false,
+                                        "type": "date",
+                                        "label": "Date of Birth"
+                                    },
+                                    {
+                                        "name": "companyName",
+                                        "type": "text",
+                                        "label": "Company Name"
+                                    },
+                                    {
+                                        "name": "website",
+                                        "type": "url",
+                                        "label": "Website"
+                                    },
+                                    {
+                                        "name": "tags",
+                                        "type": "select",
+                                        "label": "Tags",
+                                        "multiple": true
+                                    },
+                                    {
+                                        "name": "address",
+                                        "spec": [
+                                            {
+                                                "name": "address1",
+                                                "type": "text",
+                                                "label": "Street"
+                                            },
+                                            {
+                                                "name": "city",
+                                                "type": "text",
+                                                "label": "City"
+                                            },
+                                            {
+                                                "name": "state",
+                                                "type": "text",
+                                                "label": "State"
+                                            },
+                                            {
+                                                "name": "postalCode",
+                                                "type": "text",
+                                                "label": "PostalCode"
+                                            },
+                                            {
+                                                "name": "country",
+                                                "type": "select",
+                                                "label": "Country"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Address"
+                                    },
+                                    {
+                                        "name": "source",
+                                        "type": "text",
+                                        "label": "Source"
+                                    },
+                                    {
+                                        "name": "timezone",
+                                        "type": "select",
+                                        "label": "Timezone"
+                                    },
+                                    {
+                                        "name": "dnd",
+                                        "type": "boolean",
+                                        "label": "Dnd",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "customField",
+                                        "spec": [
+                                            {
+                                                "name": "pvKrC9DzZQCX26MCcG8E",
+                                                "type": "select",
+                                                "label": "How often do you normally workout?"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Custom Fields"
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "id",
+                                        "type": "text",
+                                        "label": "Contact ID"
+                                    },
+                                    {
+                                        "name": "timezone",
+                                        "type": "text",
+                                        "label": "Timezone"
+                                    },
+                                    {
+                                        "name": "type",
+                                        "type": "text",
+                                        "label": "Type"
+                                    },
+                                    {
+                                        "name": "locationId",
+                                        "type": "text",
+                                        "label": "Location ID"
+                                    },
+                                    {
+                                        "name": "dnd",
+                                        "type": "boolean",
+                                        "label": "Dnd"
+                                    },
+                                    {
+                                        "name": "inboundDndSettings",
+                                        "spec": [
+                                            {
+                                                "name": "all",
+                                                "spec": [
+                                                    {
+                                                        "name": "message",
+                                                        "type": "text",
+                                                        "label": "Message"
+                                                    },
+                                                    {
+                                                        "name": "status",
+                                                        "type": "text",
+                                                        "label": "Status"
+                                                    }
+                                                ],
+                                                "type": "collection",
+                                                "label": "All"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Inbound Dnd Settings"
+                                    },
+                                    {
+                                        "name": "dndSettings",
+                                        "spec": [
+                                            {
+                                                "name": "Call",
+                                                "spec": [
+                                                    {
+                                                        "name": "code",
+                                                        "type": "text",
+                                                        "label": "Code"
+                                                    },
+                                                    {
+                                                        "name": "message",
+                                                        "type": "text",
+                                                        "label": "Message"
+                                                    },
+                                                    {
+                                                        "name": "status",
+                                                        "type": "text",
+                                                        "label": "Status"
+                                                    }
+                                                ],
+                                                "type": "collection",
+                                                "label": "Call"
+                                            },
+                                            {
+                                                "name": "Email",
+                                                "spec": [
+                                                    {
+                                                        "name": "code",
+                                                        "type": "text",
+                                                        "label": "Code"
+                                                    },
+                                                    {
+                                                        "name": "message",
+                                                        "type": "text",
+                                                        "label": "Message"
+                                                    },
+                                                    {
+                                                        "name": "status",
+                                                        "type": "text",
+                                                        "label": "Status"
+                                                    }
+                                                ],
+                                                "type": "collection",
+                                                "label": "Email"
+                                            },
+                                            {
+                                                "name": "SMS",
+                                                "spec": [
+                                                    {
+                                                        "name": "code",
+                                                        "type": "text",
+                                                        "label": "Code"
+                                                    },
+                                                    {
+                                                        "name": "message",
+                                                        "type": "text",
+                                                        "label": "Message"
+                                                    },
+                                                    {
+                                                        "name": "status",
+                                                        "type": "text",
+                                                        "label": "Status"
+                                                    }
+                                                ],
+                                                "type": "collection",
+                                                "label": "SMS"
+                                            },
+                                            {
+                                                "name": "WhatsApp",
+                                                "spec": [
+                                                    {
+                                                        "name": "code",
+                                                        "type": "text",
+                                                        "label": "Code"
+                                                    },
+                                                    {
+                                                        "name": "message",
+                                                        "type": "text",
+                                                        "label": "Message"
+                                                    },
+                                                    {
+                                                        "name": "status",
+                                                        "type": "text",
+                                                        "label": "Status"
+                                                    }
+                                                ],
+                                                "type": "collection",
+                                                "label": "WhatsApp"
+                                            },
+                                            {
+                                                "name": "GMB",
+                                                "spec": [
+                                                    {
+                                                        "name": "code",
+                                                        "type": "text",
+                                                        "label": "Code"
+                                                    },
+                                                    {
+                                                        "name": "message",
+                                                        "type": "text",
+                                                        "label": "Message"
+                                                    },
+                                                    {
+                                                        "name": "status",
+                                                        "type": "text",
+                                                        "label": "Status"
+                                                    }
+                                                ],
+                                                "type": "collection",
+                                                "label": "GMB"
+                                            },
+                                            {
+                                                "name": "FB",
+                                                "spec": [
+                                                    {
+                                                        "name": "code",
+                                                        "type": "text",
+                                                        "label": "Code"
+                                                    },
+                                                    {
+                                                        "name": "message",
+                                                        "type": "text",
+                                                        "label": "Message"
+                                                    },
+                                                    {
+                                                        "name": "status",
+                                                        "type": "text",
+                                                        "label": "Status"
+                                                    }
+                                                ],
+                                                "type": "collection",
+                                                "label": "FB"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Dnd Settings"
+                                    },
+                                    {
+                                        "name": "createdBy",
+                                        "spec": [
+                                            {
+                                                "name": "sourceId",
+                                                "type": "text",
+                                                "label": "Source ID"
+                                            },
+                                            {
+                                                "name": "channel",
+                                                "type": "text",
+                                                "label": "Channel"
+                                            },
+                                            {
+                                                "name": "source",
+                                                "type": "text",
+                                                "label": "Source"
+                                            },
+                                            {
+                                                "name": "sourceName",
+                                                "type": "text",
+                                                "label": "Source Name"
+                                            },
+                                            {
+                                                "name": "timestamp",
+                                                "type": "date",
+                                                "label": "Timestamp"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Created By"
+                                    },
+                                    {
+                                        "name": "tags",
+                                        "type": "array",
+                                        "label": "Tags"
+                                    },
+                                    {
+                                        "name": "dateAdded",
+                                        "type": "date",
+                                        "label": "Date Added"
+                                    },
+                                    {
+                                        "name": "additionalEmails",
+                                        "type": "array",
+                                        "label": "Additional Emails"
+                                    },
+                                    {
+                                        "name": "additionalPhones",
+                                        "type": "array",
+                                        "label": "Additional Phones"
+                                    },
+                                    {
+                                        "name": "country",
+                                        "type": "text",
+                                        "label": "Country"
+                                    },
+                                    {
+                                        "name": "lastName",
+                                        "type": "text",
+                                        "label": "Last Name"
+                                    },
+                                    {
+                                        "name": "lastNameLowerCase",
+                                        "type": "text",
+                                        "label": "Last Name Lower Case"
+                                    },
+                                    {
+                                        "name": "emailLowerCase",
+                                        "type": "text",
+                                        "label": "Email Lower Case"
+                                    },
+                                    {
+                                        "name": "email",
+                                        "type": "text",
+                                        "label": "Email"
+                                    },
+                                    {
+                                        "name": "postalCode",
+                                        "type": "text",
+                                        "label": "Postal Code"
+                                    },
+                                    {
+                                        "name": "dateUpdated",
+                                        "type": "date",
+                                        "label": "Date Updated"
+                                    },
+                                    {
+                                        "name": "fullNameLowerCase",
+                                        "type": "text",
+                                        "label": "Full Name Lower Case"
+                                    },
+                                    {
+                                        "name": "firstName",
+                                        "type": "text",
+                                        "label": "First Name"
+                                    },
+                                    {
+                                        "name": "firstNameLowerCase",
+                                        "type": "text",
+                                        "label": "First Name Lower Case"
+                                    },
+                                    {
+                                        "name": "source",
+                                        "type": "text",
+                                        "label": "Source"
+                                    },
+                                    {
+                                        "name": "companyName",
+                                        "type": "text",
+                                        "label": "Company Name"
+                                    },
+                                    {
+                                        "name": "website",
+                                        "type": "text",
+                                        "label": "Website"
+                                    },
+                                    {
+                                        "name": "phone",
+                                        "type": "text",
+                                        "label": "Phone"
+                                    },
+                                    {
+                                        "name": "customField",
+                                        "spec": [
+                                            {
+                                                "name": "pvKrC9DzZQCX26MCcG8E",
+                                                "type": "text",
+                                                "label": "How often do you normally workout?"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Custom Fields"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 36,
+                            "module": "http:MakeRequest",
+                            "version": 4,
+                            "parameters": {
+                                "tlsType": "",
+                                "apiKeyKeychain": 218124,
+                                "authenticationType": "apiKey"
+                            },
+                            "mapper": {
+                                "url": "https://blissful-junkyard-elevating.ngrok-free.dev/api/generate",
+                                "method": "post",
+                                "contentType": "json",
+                                "inputMethod": "jsonString",
+                                "shareCookies": false,
+                                "parseResponse": true,
+                                "allowRedirects": true,
+                                "stopOnHttpError": true,
+                                "jsonStringBodyContent": "{\n  \"model\": \"qwen2.5-coder:3b\",\n  \"prompt\": \"Write a warm, 2-sentence follow-up SMS to a real estate lead named {{9.first_name}} who is interested in {{9.property_interest}} with a budget of {{9.budget}}. Ask when they are available for a brief call.\",\n  \"stream\": false\n}",
+                                "requestCompressedContent": true
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1520,
+                                    "y": -151
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "method": {
+                                            "mode": "chose",
+                                            "label": "POST"
+                                        },
+                                        "headers": {
+                                            "mode": "chose"
+                                        },
+                                        "contentType": {
+                                            "label": "application/jsonEnter data in the JSON format, as a string or using a data structure."
+                                        },
+                                        "inputMethod": {
+                                            "label": "JSON stringEnter the JSON body as a raw text string. If values contain JSON reserved characters, you must escape them manually."
+                                        },
+                                        "shareCookies": {
+                                            "mode": "chose"
+                                        },
+                                        "parseResponse": {
+                                            "mode": "chose"
+                                        },
+                                        "allowRedirects": {
+                                            "mode": "chose"
+                                        },
+                                        "paginationType": {
+                                            "label": "Empty"
+                                        },
+                                        "queryParameters": {
+                                            "mode": "chose"
+                                        },
+                                        "stopOnHttpError": {
+                                            "mode": "chose"
+                                        },
+                                        "requestCompressedContent": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "tlsType": {
+                                            "label": "Empty"
+                                        },
+                                        "apiKeyKeychain": {
+                                            "label": "Cedric's API Key Auth key"
+                                        },
+                                        "authenticationType": {
+                                            "label": "API keyUse when the service requires an API key in the header or query parameters."
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "authenticationType",
+                                        "type": "select",
+                                        "label": "Authentication type",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "noAuth",
+                                                "apiKey",
+                                                "basicAuth",
+                                                "oAuth"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "tlsType",
+                                        "type": "select",
+                                        "label": "Transport layer security (TLS)",
+                                        "validate": {
+                                            "enum": [
+                                                "mTls",
+                                                "tls"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "proxyKeychain",
+                                        "type": "keychain:proxy",
+                                        "label": "Proxy"
+                                    },
+                                    {
+                                        "name": "apiKeyKeychain",
+                                        "type": "keychain:apikeyauth",
+                                        "label": "Credentials",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "url",
+                                        "type": "url",
+                                        "label": "URL",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "method",
+                                        "type": "select",
+                                        "label": "Method",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "get",
+                                                "head",
+                                                "post",
+                                                "put",
+                                                "patch",
+                                                "delete",
+                                                "options"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "headers",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "name",
+                                                    "type": "text",
+                                                    "label": "Name",
+                                                    "required": true,
+                                                    "validate": {
+                                                        "pattern": "^[-!#$%&'*+.^_`|~0-9A-Za-z]+$"
+                                                    }
+                                                },
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Value"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Header"
+                                        },
+                                        "type": "array",
+                                        "label": "Headers"
+                                    },
+                                    {
+                                        "name": "queryParameters",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "name",
+                                                    "type": "text",
+                                                    "label": "Name",
+                                                    "required": true
+                                                },
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Value"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Parameter"
+                                        },
+                                        "type": "array",
+                                        "label": "Query parameters"
+                                    },
+                                    {
+                                        "name": "contentType",
+                                        "type": "select",
+                                        "label": "Body content type",
+                                        "validate": {
+                                            "enum": [
+                                                "json",
+                                                "multipart",
+                                                "urlEncoded",
+                                                "custom"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "parseResponse",
+                                        "type": "boolean",
+                                        "label": "Parse response",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "stopOnHttpError",
+                                        "type": "boolean",
+                                        "label": "Return error if HTTP request fails",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "timeout",
+                                        "type": "uinteger",
+                                        "label": "Timeout",
+                                        "validate": {
+                                            "max": 300,
+                                            "min": 1
+                                        }
+                                    },
+                                    {
+                                        "name": "allowRedirects",
+                                        "type": "boolean",
+                                        "label": "Allow redirects",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "shareCookies",
+                                        "type": "boolean",
+                                        "label": "Share cookies with other HTTP modules",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "requestCompressedContent",
+                                        "type": "boolean",
+                                        "label": "Request compressed content",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "inputMethod",
+                                        "type": "select",
+                                        "label": "Body input method",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "dataStructure",
+                                                "jsonString"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "jsonStringBodyContent",
+                                        "type": "text",
+                                        "label": "Body content",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "paginationType",
+                                        "type": "select",
+                                        "label": "Pagination type",
+                                        "validate": {
+                                            "enum": [
+                                                "offsetBased",
+                                                "pageBased",
+                                                "urlBased",
+                                                "tokenBased"
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "interface": [
+                                    {
+                                        "name": "data",
+                                        "type": "any",
+                                        "label": "Data"
+                                    },
+                                    {
+                                        "name": "statusCode",
+                                        "type": "number",
+                                        "label": "Status Code"
+                                    },
+                                    {
+                                        "name": "headers",
+                                        "spec": [
+                                            {
+                                                "name": "content-length",
+                                                "type": "text",
+                                                "label": "Content-Length"
+                                            },
+                                            {
+                                                "name": "content-encoding",
+                                                "type": "text",
+                                                "label": "Content-Encoding"
+                                            },
+                                            {
+                                                "name": "content-type",
+                                                "type": "text",
+                                                "label": "Content-Type"
+                                            },
+                                            {
+                                                "name": "server",
+                                                "type": "text",
+                                                "label": "Server"
+                                            },
+                                            {
+                                                "name": "cache-control",
+                                                "type": "text",
+                                                "label": "Cache-Control"
+                                            },
+                                            {
+                                                "name": "set-cookie",
+                                                "spec": {
+                                                    "type": "text"
+                                                },
+                                                "type": "array",
+                                                "label": "Set-Cookie"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Headers"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 40,
+                            "module": "google-email:createADraft",
+                            "version": 4,
+                            "parameters": {
+                                "__IMTCONN__": 10306047
+                            },
+                            "mapper": {
+                                "to": [
+                                    "{{9.email}}"
+                                ],
+                                "subject": "Quick question about {{9.property_interest}}, {{9.first_name}}",
+                                "bodyType": "collection",
+                                "contents": [
+                                    {
+                                        "text": "{{36.data.response}}",
+                                        "image": {}
+                                    }
+                                ]
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1817,
+                                    "y": -148
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "cc": {
+                                            "mode": "chose"
+                                        },
+                                        "to": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "bcc": {
+                                            "mode": "chose"
+                                        },
+                                        "from": {
+                                            "mode": "chose",
+                                            "label": "Empty"
+                                        },
+                                        "folders": {
+                                            "mode": "chose"
+                                        },
+                                        "bodyType": {
+                                            "label": "Collection of contents (text, images, etc.)"
+                                        },
+                                        "contents": {
+                                            "mode": "chose",
+                                            "items": [
+                                                null
+                                            ]
+                                        },
+                                        "signature": {
+                                            "mode": "chose"
+                                        },
+                                        "attachments": {
+                                            "mode": "chose"
+                                        },
+                                        "emailHeaders": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "google-email"
+                                            },
+                                            "label": "Cedric's Gmail connection (cedriccierva@gmail.com)"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:google-email",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "from",
+                                        "type": "select",
+                                        "label": "From"
+                                    },
+                                    {
+                                        "name": "to",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Recipient email address",
+                                            "required": true
+                                        },
+                                        "type": "array",
+                                        "label": "To",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "emailHeaders",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "key",
+                                                    "type": "text",
+                                                    "label": "Key",
+                                                    "required": true
+                                                },
+                                                {
+                                                    "name": "value",
+                                                    "type": "text",
+                                                    "label": "Value"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Email header"
+                                        },
+                                        "type": "array",
+                                        "label": "Additional email headers"
+                                    },
+                                    {
+                                        "name": "subject",
+                                        "type": "text",
+                                        "label": "Subject"
+                                    },
+                                    {
+                                        "name": "bodyType",
+                                        "type": "select",
+                                        "label": "Body type",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "rawHtml",
+                                                "collection"
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "name": "attachments",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "filename",
+                                                    "type": "filename",
+                                                    "label": "File name",
+                                                    "required": true,
+                                                    "semantic": "file:name"
+                                                },
+                                                {
+                                                    "name": "data",
+                                                    "type": "buffer",
+                                                    "label": "Data",
+                                                    "required": true,
+                                                    "semantic": "file:data"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Attachment"
+                                        },
+                                        "type": "array",
+                                        "label": "Attachments"
+                                    },
+                                    {
+                                        "name": "cc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Recipient email address"
+                                        },
+                                        "type": "array",
+                                        "label": "CC recipients"
+                                    },
+                                    {
+                                        "name": "bcc",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "email",
+                                            "label": "Recipient email address"
+                                        },
+                                        "type": "array",
+                                        "label": "BCC recipients"
+                                    },
+                                    {
+                                        "name": "threadId",
+                                        "type": "text",
+                                        "label": "Thread ID"
+                                    },
+                                    {
+                                        "name": "folders",
+                                        "type": "select",
+                                        "label": "Folders",
+                                        "multiple": true
+                                    },
+                                    {
+                                        "name": "contents",
+                                        "spec": {
+                                            "name": "value",
+                                            "spec": [
+                                                {
+                                                    "name": "text",
+                                                    "type": "text",
+                                                    "label": "Text"
+                                                },
+                                                {
+                                                    "name": "image",
+                                                    "spec": [
+                                                        {
+                                                            "name": "filename",
+                                                            "type": "filename",
+                                                            "label": "File name",
+                                                            "semantic": "file:name"
+                                                        },
+                                                        {
+                                                            "name": "data",
+                                                            "type": "buffer",
+                                                            "label": "Data",
+                                                            "semantic": "file:data"
+                                                        },
+                                                        {
+                                                            "name": "width",
+                                                            "type": "uinteger",
+                                                            "label": "Width"
+                                                        },
+                                                        {
+                                                            "name": "height",
+                                                            "type": "uinteger",
+                                                            "label": "Height"
+                                                        }
+                                                    ],
+                                                    "type": "collection",
+                                                    "label": "Image"
+                                                }
+                                            ],
+                                            "type": "collection",
+                                            "label": "Content"
+                                        },
+                                        "type": "array",
+                                        "label": "Body contents"
+                                    },
+                                    {
+                                        "name": "signature",
+                                        "type": "select",
+                                        "label": "Signature content"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                },
+                {
+                    "flow": [
+                        {
+                            "id": 29,
+                            "module": "phonenumber:TransformerParseNumber",
+                            "version": 1,
+                            "parameters": {},
+                            "mapper": {
+                                "number": "{{9.phone}}",
+                                "defaultCountry": "US"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1203,
+                                    "y": 147
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "defaultCountry": {
+                                            "mode": "chose",
+                                            "label": "United States (US)"
+                                        }
+                                    }
+                                },
+                                "expect": [
+                                    {
+                                        "name": "number",
+                                        "type": "text",
+                                        "label": "Phone number",
+                                        "required": true
+                                    },
+                                    {
+                                        "name": "defaultCountry",
+                                        "type": "select",
+                                        "label": "Default country for parsing",
+                                        "required": true,
+                                        "validate": {
+                                            "enum": [
+                                                "AC",
+                                                "AD",
+                                                "AE",
+                                                "AF",
+                                                "AG",
+                                                "AI",
+                                                "AL",
+                                                "AM",
+                                                "AO",
+                                                "AQ",
+                                                "AR",
+                                                "AS",
+                                                "AT",
+                                                "AU",
+                                                "AW",
+                                                "AX",
+                                                "AZ",
+                                                "BA",
+                                                "BB",
+                                                "BD",
+                                                "BE",
+                                                "BF",
+                                                "BG",
+                                                "BH",
+                                                "BI",
+                                                "BJ",
+                                                "BL",
+                                                "BM",
+                                                "BN",
+                                                "BO",
+                                                "BQ",
+                                                "BR",
+                                                "BS",
+                                                "BT",
+                                                "BV",
+                                                "BW",
+                                                "BY",
+                                                "BZ",
+                                                "CA",
+                                                "CC",
+                                                "CD",
+                                                "CF",
+                                                "CG",
+                                                "CH",
+                                                "CI",
+                                                "CK",
+                                                "CL",
+                                                "CM",
+                                                "CN",
+                                                "CO",
+                                                "CP",
+                                                "CR",
+                                                "CU",
+                                                "CV",
+                                                "CW",
+                                                "CX",
+                                                "CY",
+                                                "CZ",
+                                                "DE",
+                                                "DG",
+                                                "DJ",
+                                                "DK",
+                                                "DM",
+                                                "DO",
+                                                "DZ",
+                                                "EA",
+                                                "EC",
+                                                "EE",
+                                                "EG",
+                                                "EH",
+                                                "ER",
+                                                "ES",
+                                                "ET",
+                                                "EU",
+                                                "FI",
+                                                "FJ",
+                                                "FK",
+                                                "FM",
+                                                "FO",
+                                                "FR",
+                                                "FX",
+                                                "GA",
+                                                "GB",
+                                                "GD",
+                                                "GE",
+                                                "GF",
+                                                "GG",
+                                                "GH",
+                                                "GI",
+                                                "GL",
+                                                "GM",
+                                                "GN",
+                                                "GP",
+                                                "GQ",
+                                                "GR",
+                                                "GS",
+                                                "GT",
+                                                "GU",
+                                                "GW",
+                                                "GY",
+                                                "HK",
+                                                "HM",
+                                                "HN",
+                                                "HR",
+                                                "HT",
+                                                "HU",
+                                                "IC",
+                                                "ID",
+                                                "IE",
+                                                "IL",
+                                                "IM",
+                                                "IN",
+                                                "IO",
+                                                "IQ",
+                                                "IR",
+                                                "IS",
+                                                "IT",
+                                                "JE",
+                                                "JM",
+                                                "JO",
+                                                "JP",
+                                                "KE",
+                                                "KG",
+                                                "KH",
+                                                "KI",
+                                                "KM",
+                                                "KN",
+                                                "KP",
+                                                "KR",
+                                                "KW",
+                                                "KY",
+                                                "KZ",
+                                                "LA",
+                                                "LB",
+                                                "LC",
+                                                "LI",
+                                                "LK",
+                                                "LR",
+                                                "LS",
+                                                "LT",
+                                                "LU",
+                                                "LV",
+                                                "LY",
+                                                "MA",
+                                                "MC",
+                                                "MD",
+                                                "ME",
+                                                "MF",
+                                                "MG",
+                                                "MH",
+                                                "MK",
+                                                "ML",
+                                                "MM",
+                                                "MN",
+                                                "MO",
+                                                "MP",
+                                                "MQ",
+                                                "MR",
+                                                "MS",
+                                                "MT",
+                                                "MU",
+                                                "MV",
+                                                "MW",
+                                                "MX",
+                                                "MY",
+                                                "MZ",
+                                                "NA",
+                                                "NC",
+                                                "NE",
+                                                "NF",
+                                                "NG",
+                                                "NI",
+                                                "NL",
+                                                "NO",
+                                                "NP",
+                                                "NR",
+                                                "NU",
+                                                "NZ",
+                                                "OM",
+                                                "PA",
+                                                "PE",
+                                                "PF",
+                                                "PG",
+                                                "PH",
+                                                "PK",
+                                                "PL",
+                                                "PM",
+                                                "PN",
+                                                "PR",
+                                                "PS",
+                                                "PT",
+                                                "PW",
+                                                "PY",
+                                                "QA",
+                                                "RE",
+                                                "RO",
+                                                "RS",
+                                                "RU",
+                                                "RW",
+                                                "SA",
+                                                "SB",
+                                                "SC",
+                                                "SD",
+                                                "SE",
+                                                "SG",
+                                                "SH",
+                                                "SI",
+                                                "SJ",
+                                                "SK",
+                                                "SL",
+                                                "SM",
+                                                "SN",
+                                                "SO",
+                                                "SR",
+                                                "SS",
+                                                "ST",
+                                                "SU",
+                                                "SV",
+                                                "SX",
+                                                "SY",
+                                                "SZ",
+                                                "TA",
+                                                "TC",
+                                                "TD",
+                                                "TF",
+                                                "TG",
+                                                "TH",
+                                                "TJ",
+                                                "TK",
+                                                "TL",
+                                                "TM",
+                                                "TN",
+                                                "TO",
+                                                "TR",
+                                                "TT",
+                                                "TV",
+                                                "TW",
+                                                "TZ",
+                                                "UA",
+                                                "UG",
+                                                "UM",
+                                                "US",
+                                                "UY",
+                                                "UZ",
+                                                "VA",
+                                                "VC",
+                                                "VE",
+                                                "VG",
+                                                "VI",
+                                                "VN",
+                                                "VU",
+                                                "WF",
+                                                "WS",
+                                                "YE",
+                                                "YT",
+                                                "ZA",
+                                                "ZM",
+                                                "ZW"
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 28,
+                            "module": "sendinblue:CreateContact",
+                            "version": 2,
+                            "parameters": {
+                                "__IMTCONN__": 10882576
+                            },
+                            "filter": {
+                                "name": "",
+                                "conditions": [
+                                    [
+                                        {
+                                            "a": "{{9.email}}",
+                                            "o": "exist"
+                                        }
+                                    ]
+                                ]
+                            },
+                            "mapper": {
+                                "email": "{{9.email}}",
+                                "listIds": [
+                                    2
+                                ],
+                                "attributes": {
+                                    "SMS": "{{29.e164}}",
+                                    "TAG": "{{9.source}}",
+                                    "LASTNAME": "{{9.first_name}}",
+                                    "FIRSTNAME": "{{9.last_name}}",
+                                    "_DETECTED_LANGUAGE": "en"
+                                },
+                                "updateEnabled": "{{true}}"
+                            },
+                            "metadata": {
+                                "designer": {
+                                    "x": 1533,
+                                    "y": 140
+                                },
+                                "restore": {
+                                    "expect": {
+                                        "listIds": {
+                                            "mode": "chose",
+                                            "label": [
+                                                "2"
+                                            ]
+                                        },
+                                        "attributes": {
+                                            "nested": {
+                                                "OPT_IN": {
+                                                    "mode": "chose"
+                                                },
+                                                "DOUBLE_OPT-IN": {
+                                                    "mode": "chose",
+                                                    "label": "Empty"
+                                                },
+                                                "_DETECTED_LANGUAGE": {
+                                                    "mode": "chose",
+                                                    "label": "English"
+                                                }
+                                            }
+                                        },
+                                        "updateEnabled": {
+                                            "mode": "edit"
+                                        },
+                                        "smsBlacklisted": {
+                                            "mode": "chose"
+                                        },
+                                        "emailBlacklisted": {
+                                            "mode": "chose"
+                                        },
+                                        "smtpBlacklistSender": {
+                                            "mode": "chose"
+                                        }
+                                    },
+                                    "parameters": {
+                                        "__IMTCONN__": {
+                                            "data": {
+                                                "scoped": "true",
+                                                "connection": "sendinblue2"
+                                            },
+                                            "label": "Cedric's Brevo connection"
+                                        }
+                                    }
+                                },
+                                "parameters": [
+                                    {
+                                        "name": "__IMTCONN__",
+                                        "type": "account:sendinblue2",
+                                        "label": "Connection",
+                                        "required": true
+                                    }
+                                ],
+                                "expect": [
+                                    {
+                                        "name": "email",
+                                        "type": "email",
+                                        "label": "Email"
+                                    },
+                                    {
+                                        "name": "attributes",
+                                        "spec": [
+                                            {
+                                                "name": "TAG",
+                                                "type": "text"
+                                            },
+                                            {
+                                                "name": "LASTNAME",
+                                                "type": "text"
+                                            },
+                                            {
+                                                "name": "FIRSTNAME",
+                                                "type": "text"
+                                            },
+                                            {
+                                                "name": "_DETECTED_LANGUAGE",
+                                                "type": "select",
+                                                "validate": {
+                                                    "enum": [
+                                                        "aa",
+                                                        "ab",
+                                                        "ae",
+                                                        "af",
+                                                        "ak",
+                                                        "am",
+                                                        "an",
+                                                        "ar",
+                                                        "as",
+                                                        "av",
+                                                        "ay",
+                                                        "az",
+                                                        "ba",
+                                                        "be",
+                                                        "bg",
+                                                        "bi",
+                                                        "bm",
+                                                        "bn",
+                                                        "bo",
+                                                        "br",
+                                                        "bs",
+                                                        "ca",
+                                                        "ce",
+                                                        "ch",
+                                                        "co",
+                                                        "cr",
+                                                        "cs",
+                                                        "cu",
+                                                        "cv",
+                                                        "cy",
+                                                        "da",
+                                                        "de",
+                                                        "dv",
+                                                        "dz",
+                                                        "ee",
+                                                        "el",
+                                                        "en",
+                                                        "eo",
+                                                        "es",
+                                                        "et",
+                                                        "eu",
+                                                        "fa",
+                                                        "ff",
+                                                        "fi",
+                                                        "fj",
+                                                        "fo",
+                                                        "fr",
+                                                        "fy",
+                                                        "ga",
+                                                        "gd",
+                                                        "gl",
+                                                        "gn",
+                                                        "gu",
+                                                        "gv",
+                                                        "ha",
+                                                        "he",
+                                                        "hi",
+                                                        "ho",
+                                                        "hr",
+                                                        "ht",
+                                                        "hu",
+                                                        "hy",
+                                                        "hz",
+                                                        "ia",
+                                                        "id",
+                                                        "ie",
+                                                        "ig",
+                                                        "ii",
+                                                        "ik",
+                                                        "io",
+                                                        "is",
+                                                        "it",
+                                                        "iu",
+                                                        "ja",
+                                                        "jv",
+                                                        "ka",
+                                                        "kg",
+                                                        "ki",
+                                                        "kj",
+                                                        "kk",
+                                                        "kl",
+                                                        "km",
+                                                        "kn",
+                                                        "ko",
+                                                        "kr",
+                                                        "ks",
+                                                        "ku",
+                                                        "kv",
+                                                        "kw",
+                                                        "ky",
+                                                        "la",
+                                                        "lb",
+                                                        "lg",
+                                                        "li",
+                                                        "ln",
+                                                        "lo",
+                                                        "lt",
+                                                        "lu",
+                                                        "lv",
+                                                        "mg",
+                                                        "mh",
+                                                        "mi",
+                                                        "mk",
+                                                        "ml",
+                                                        "mn",
+                                                        "mr",
+                                                        "ms",
+                                                        "mt",
+                                                        "my",
+                                                        "na",
+                                                        "nb",
+                                                        "nd",
+                                                        "ne",
+                                                        "ng",
+                                                        "nl",
+                                                        "nn",
+                                                        "no",
+                                                        "nr",
+                                                        "nv",
+                                                        "ny",
+                                                        "oc",
+                                                        "oj",
+                                                        "om",
+                                                        "or",
+                                                        "os",
+                                                        "pa",
+                                                        "pi",
+                                                        "pl",
+                                                        "ps",
+                                                        "pt",
+                                                        "qu",
+                                                        "rm",
+                                                        "rn",
+                                                        "ro",
+                                                        "ru",
+                                                        "rw",
+                                                        "sa",
+                                                        "sc",
+                                                        "sd",
+                                                        "se",
+                                                        "sg",
+                                                        "si",
+                                                        "sk",
+                                                        "sl",
+                                                        "sm",
+                                                        "sn",
+                                                        "so",
+                                                        "sq",
+                                                        "sr",
+                                                        "ss",
+                                                        "st",
+                                                        "su",
+                                                        "sv",
+                                                        "sw",
+                                                        "ta",
+                                                        "te",
+                                                        "tg",
+                                                        "th",
+                                                        "ti",
+                                                        "tk",
+                                                        "tl",
+                                                        "tn",
+                                                        "to",
+                                                        "tr",
+                                                        "ts",
+                                                        "tt",
+                                                        "tw",
+                                                        "ty",
+                                                        "ug",
+                                                        "uk",
+                                                        "ur",
+                                                        "uz",
+                                                        "ve",
+                                                        "vi",
+                                                        "vo",
+                                                        "wa",
+                                                        "wo",
+                                                        "xh",
+                                                        "yi",
+                                                        "yo",
+                                                        "za",
+                                                        "zh",
+                                                        "zu"
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "DOUBLE_OPT-IN",
+                                                "type": "select",
+                                                "validate": {
+                                                    "enum": [
+                                                        "1",
+                                                        "2"
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                "name": "OPT_IN",
+                                                "type": "boolean"
+                                            },
+                                            {
+                                                "name": "CONTACT_TIMEZONE",
+                                                "type": "text"
+                                            },
+                                            {
+                                                "name": "EXT_ID",
+                                                "type": "text"
+                                            },
+                                            {
+                                                "name": "LINKEDIN",
+                                                "type": "text"
+                                            },
+                                            {
+                                                "name": "JOB_TITLE",
+                                                "type": "text"
+                                            },
+                                            {
+                                                "name": "WHATSAPP",
+                                                "type": "text"
+                                            },
+                                            {
+                                                "name": "LANDLINE_NUMBER",
+                                                "type": "text"
+                                            },
+                                            {
+                                                "name": "SMS",
+                                                "type": "text"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Attributes"
+                                    },
+                                    {
+                                        "name": "listIds",
+                                        "type": "select",
+                                        "label": "Lists",
+                                        "multiple": true
+                                    },
+                                    {
+                                        "name": "emailBlacklisted",
+                                        "type": "boolean",
+                                        "label": "Email blacklisted"
+                                    },
+                                    {
+                                        "name": "smsBlacklisted",
+                                        "type": "boolean",
+                                        "label": "SMS blacklisted"
+                                    },
+                                    {
+                                        "name": "updateEnabled",
+                                        "type": "boolean",
+                                        "label": "Update enabled"
+                                    },
+                                    {
+                                        "name": "smtpBlacklistSender",
+                                        "spec": {
+                                            "name": "value",
+                                            "type": "text"
+                                        },
+                                        "type": "array",
+                                        "label": "SMTP blacklist sender"
+                                    }
+                                ],
+                                "advanced": true
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us2.make.com",
+        "notes": []
+    }
+}
