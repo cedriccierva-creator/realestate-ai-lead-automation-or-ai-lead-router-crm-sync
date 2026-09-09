@@ -30,3 +30,6 @@ In high-ticket sales, 78% of prospects sign with the agency that responds first.
 * Eliminates manual data entry across multiple databases.
 * Reduces lead response time from hours to less than two seconds.
 * Guarantees zero-delay outreach before the prospect explores competitors.
+
+<img width="1824" height="965" alt="image" src="https://github.com/user-attachments/assets/a7b871e1-1fd9-45ac-9bc8-1c605de48ecd" />
+
